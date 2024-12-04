@@ -1,0 +1,19 @@
+{
+    "name": "tops/backmarketapi",
+    "description": "This is the library for the backmarket marketplace APIs.",
+    "type": "library",
+    "license": "proprietary",
+    "autoload": {
+        "psr-4": {
+            "Tops\\BackmarketApi\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "hiralprajapati",
+            "email": "hiralprajapati@topsinfosolutions.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
