@@ -20,7 +20,7 @@ In the Laravel project where you want to add the GitHub repository, follow these
     }
   ],
   "require": {
-    "tops/backmarketapi": "dev-master"
+    "tops/backmarketapi": "dev-main"
   }
 }
 ```
