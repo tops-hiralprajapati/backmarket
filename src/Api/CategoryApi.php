@@ -22,7 +22,7 @@ class CategoryApi extends BaseApi
     */
     public function getCategoryTree($params = [])
     {
-        return $this->makeRequest($this->getCategoryEndpoint, 'GET', [], $params);
+        return $this->makeRequest($this->getCategoryTreeEndpoint, 'GET', [], $params);
     }
 
     /**
@@ -43,8 +43,8 @@ class CategoryApi extends BaseApi
             // Return exception details
             return [
                 'status'      => 'error',
-                'message'     => $e->getMessage(),
-                'status_code' => 'CategoryId Missing',
+                'message'     => 'CategoryId is missing.',
+                'status_code' => 400,  // HTTP 400 Bad Request
             ];
         }
 
