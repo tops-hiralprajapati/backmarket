@@ -36,7 +36,7 @@ class CategoryApi extends BaseApi
      * @return array The API response containing the category branch or an error message.
      * @link https://api.backmarket.dev/#/paths/ws-category-tree-categoryId/get
     */
-    public function getCategoryBranch($categoryId, $params = [])
+    public function getCategoryBranch($categoryId = null, $params = [])
     {
         if(empty($categoryId))
         {
