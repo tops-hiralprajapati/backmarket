@@ -2,7 +2,7 @@
 
 namespace Tops\BackmarketApi\Api;
 
-use Tops\BackmarketApi\BaseApi;
+use Tops\BackmarketApi\Api\BaseApi;
 
 class CategoryApi extends BaseApi
 {
