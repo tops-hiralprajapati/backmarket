@@ -6,100 +6,70 @@ use Illuminate\Support\Facades\Http;
 
 class BaseApi
 {
+    protected $token;
     protected $apiUrl;
-    protected $apiKey;
-    protected $secretKey;
 
     /**
-     * Initialize backMarket credentials and base configurations.
+     * Initialize BackMarket API credentials and configurations.
      *
-     * This method initializes the necessary API credentials and configurations such as the API endpoint,
-     * API key, secret key, and seller ID to be used for making requests to the backMarket API.
+     * Sets up the API token and endpoint required for making requests to the BackMarket API.
      *
-     * @param array $config Configuration array containing API endpoint, API key, secret key, and seller ID.
-    */
+     * @param array $config Configuration array containing 'token' and 'api_endpoint'.
+     */
     public function init($config = [])
     {
-        $this->apiUrl    = $config['api_endpoint'] ?? null;
-        $this->apiKey    = $config['api_key'] ?? null;
-        $this->secretKey = $config['secret_key'] ?? null;
-        $this->sellerId  = $config['seller_id'] ?? null;
+        $this->token = $config['token'] ?? null;
+        $this->apiUrl = $config['api_endpoint'] ?? null;
     }
 
     /**
-     * Build the full URL with seller ID and additional query parameters.
+     * Send an HTTP request to the BackMarket API.
      *
-     * This helper method constructs the full URL required for the API request, including the seller ID
-     * and any additional query parameters.
+     * Makes an HTTP request using the specified method, payload, and optional query parameters.
+     * Includes headers such as authorization and content type. Handles errors gracefully.
      *
-     * @param string $endpoint The endpoint URL to append to the base API URL.
-     * @param array $params Optional additional query parameters to include in the URL.
-     * @return string The fully constructed URL with query parameters.
-    */
-    protected function buildUrl($endpoint, $params = [])
-    {
-        $queryParams = ['sellerid' => $this->sellerId];
-
-        if (!empty($params)) {
-            $queryParams = array_merge($queryParams, $params);
-        }
-
-        return $this->apiUrl . $endpoint . '?' . http_build_query($queryParams);
-    }
-
-    /**
-     * Make an HTTP request.
-     *
-     * This method sends a request to the specified endpoint using the specified HTTP method (GET, POST, etc.)
-     * and request payload. It also handles adding necessary headers and error handling for API responses.
-     *
-     * @param string $baseUrl The endpoint URL to send the request to.
-     * @param string $method The HTTP method to use for the request (GET, POST, etc.).
-     * @param array $reqPayload The data to be sent with the request (optional).
-     * @param array $params Optional query parameters to append to the URL.
-     * @return array An associative array containing the status, data, and response status code.
-    */
+     * @param string $baseUrl The API endpoint to send the request to.
+     * @param string $method HTTP method to use (GET, POST, etc.). Default is 'GET'.
+     * @param array $reqPayload Data to send in the request body (optional).
+     * @param array $params Query parameters to append to the URL (optional).
+     * @return array Associative array containing the request status, data, and HTTP status code.
+     */
     public function makeRequest($baseUrl, $method = 'GET', $reqPayload = [], $params = [])
     {
         try {
+            $url = $this->apiUrl . $baseUrl . '?' . http_build_query($params);
 
-            $url = $this->buildUrl($baseUrl, $params);
-            
-            // If extra parameters are provided, merge them with seller ID
-            if (!empty($params)) {
-                $queryParams = array_merge($queryParams, $params);
-            }
-
-            // Configure headers
+            // Set up request headers
             $headers = [
-                'Authorization' => $this->apiKey,
-                'SecretKey'     => $this->secretKey,
-                'Content-Type'  => 'application/json',
-                'Accept'        => 'application/json',
+                'Content-Type'    => 'application/json',
+                'Accept'          => 'application/json',
+                'Accept-Language' => 'en-us',
+                'Authorization'   => 'Basic ' . $this->token,
+                'User-Agent'      => 'Tops', // Use your actual Seller or ERP name
             ];
-            
-            // Create and send the request
+
+            // Send the HTTP request
             $response = Http::withHeaders($headers)->$method($url, $reqPayload);
 
-            // Check if the response is successful
+            // Handle a successful response
             if ($response->successful()) {
                 return [
                     'status'      => 'success',
                     'data'        => $response->body(),
-                    'status_code' => 200
+                    'status_code' => 200,
                 ];
             }
 
+            // Handle an error response
             return [
                 'status'      => 'error',
                 'message'     => $response->body(),
                 'status_code' => $response->status(),
             ];
-
-        }catch (\Exception $e) {
-            
+        } catch (\Exception $e) {
             $statusCode = method_exists($e, 'getStatusCode') ? $e->getStatusCode() : 500;
-            
+
+            // Return exception details
             return [
                 'status'      => 'error',
                 'message'     => $e->getMessage(),
