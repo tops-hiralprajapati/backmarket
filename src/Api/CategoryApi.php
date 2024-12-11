@@ -34,6 +34,7 @@ class CategoryApi extends BaseApi
      * @param int|string $categoryId The ID of the category to retrieve.
      * @param array $params Optional query parameters to append to the request.
      * @return array The API response containing the category branch or an error message.
+     * @author Hiral Prajapati <hiralprajapati@topsinfosolutions.com> | 05-12-2024
      * @link https://api.backmarket.dev/#/paths/ws-category-tree-categoryId/get
     */
     public function getCategoryBranch($categoryId = null, $params = [])
@@ -43,7 +44,7 @@ class CategoryApi extends BaseApi
             // Return exception details
             return [
                 'status'      => 'error',
-                'message'     => 'CategoryId is missing.',
+                'message'     => 'Category Id is missing.',
                 'status_code' => 400,  // HTTP 400 Bad Request
             ];
         }
