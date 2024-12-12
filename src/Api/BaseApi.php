@@ -8,6 +8,7 @@ class BaseApi
 {
     protected $token;
     protected $apiUrl;
+    protected $userAgent;
 
     /**
      * Initialize BackMarket API credentials and configurations.
@@ -18,8 +19,9 @@ class BaseApi
      */
     public function init($config = [])
     {
-        $this->token = $config['token'] ?? null;
-        $this->apiUrl = $config['api_endpoint'] ?? null;
+        $this->token     = $config['token'] ?? null;
+        $this->apiUrl    = $config['api_endpoint'] ?? null;
+        $this->userAgent = $config['user_agent'] ?? null;
     }
 
     /**
@@ -45,7 +47,7 @@ class BaseApi
                 'Accept'          => 'application/json',
                 'Accept-Language' => 'en-us',
                 'Authorization'   => 'Basic ' . $this->token,
-                'User-Agent'      => 'Tops', // Use your actual Seller or ERP name
+                'User-Agent'      => $this->userAgent, // Use your actual Seller or ERP name
             ];
 
             // Send the HTTP request
