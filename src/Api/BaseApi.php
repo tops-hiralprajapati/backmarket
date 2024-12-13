@@ -15,7 +15,7 @@ class BaseApi
      *
      * Sets up the API token and endpoint required for making requests to the BackMarket API.
      *
-     * @param array $config Configuration array containing 'token' and 'api_endpoint'.
+     * @param array $config Configuration array containing 'token','user_agent' and 'api_endpoint'.
      */
     public function init($config = [])
     {
