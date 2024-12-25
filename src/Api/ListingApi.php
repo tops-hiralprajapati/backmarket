@@ -67,7 +67,7 @@ class ListingApi extends BaseApi
      *
      * @param int|string|null $listingId The ID of the listing to update. It must not be empty.
      * @param array $reqPayload The data payload containing fields to update in the listing.
-     *                          Example: ['name' => 'Updated Listing', 'price' => 100.00].
+     *                          Example: ['quantity' => 12, 'price' => 100.00].
      * @param array $params Optional additional query parameters to be appended to the request URL.
      *                       For example, filters or pagination parameters.
      * @return array The response from the API request (success or error).
@@ -88,5 +88,36 @@ class ListingApi extends BaseApi
         // Replace the {listingId} placeholder with the actual category ID
         $endpoint = str_replace('{listingId}', $listingId, $this->specificListingEndpoint);
         return $this->makeRequest($endpoint, 'POST', $reqPayload, $params);
+    }
+
+    /**
+     * Bulk update of a listing.
+     *
+     * This function sends a POST request to the API to update the bulk details listing.
+     * It requires the request payload containing the update data. 
+     * Optional query parameters can also be appended to the request URL.
+     * If the request payload is missing, it returns an error response with a status code of 400.
+     *
+     * @param array $reqPayload The data payload containing fields to update in the listing.
+     *                          Example: ['catalog' => "sku,quantity,price\\r\\nMY_SKU,50,123.45", 'quotechar' => ""\"",  "delimiter" => ",", "encoding": "utf-8"].
+     * @param array $params Optional additional query parameters to be appended to the request URL.
+     *                       For example, filters or pagination parameters.
+     * @return array The response from the API request (success or error).
+     * @throws \Exception If the API request fails for reasons other than missing input parameters.
+     * @author Hiral Prajapati <hiralprajapati@topsinfosolutions.com> | 25-12-2024
+     * @link https://api.backmarket.dev/#/paths/ws-listings-listingId/post
+    */
+    public function batchListing($reqPayload, $params = [])
+    {
+        if (empty($reqPayload)) {
+
+            return [
+                'status'      => 'error',
+                'message'     => 'Request parameters are missing.',
+                'status_code' => 400, // HTTP 400 Bad Request
+            ];
+        }
+
+        return $this->makeRequest($this->listingEndpoint, 'POST', $reqPayload, $params);
     }
 }
