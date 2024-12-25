@@ -47,7 +47,7 @@ class ListingApi extends BaseApi
             // Return exception details
             return [
                 'status'      => 'error',
-                'message'     => 'Listing id is missing.',
+                'message'     => 'Listing ID is missing. Please provide a valid listing ID.',
                 'status_code' => 400,  // HTTP 400 Bad Request
             ];
         }
@@ -80,7 +80,7 @@ class ListingApi extends BaseApi
         if (empty($listingId) || empty($reqPayload)) {
             return [
                 'status'      => 'error',
-                'message'     => empty($listingId) ? 'Listing ID is missing.' : 'Request parameters are missing.',
+                'message'     => empty($listingId) ? 'Listing ID is missing. Please provide a valid listing ID.' : 'Request parameters are missing.',
                 'status_code' => 400, // HTTP 400 Bad Request
             ];
         }

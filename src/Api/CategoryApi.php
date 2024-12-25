@@ -44,7 +44,7 @@ class CategoryApi extends BaseApi
             // Return exception details
             return [
                 'status'      => 'error',
-                'message'     => 'Category Id is missing.',
+                'message'     => 'Category ID is missing. Please provide a valid category ID.',
                 'status_code' => 400,  // HTTP 400 Bad Request
             ];
         }

@@ -46,7 +46,7 @@ class OrderApi extends BaseApi
             // Return exception details
             return [
                 'status'      => 'error',
-                'message'     => 'Order Id is missing.',
+                'message'     => 'Order ID is missing. Please provide a valid order ID.',
                 'status_code' => 400,  // HTTP 400 Bad Request
             ];
         }
@@ -78,7 +78,7 @@ class OrderApi extends BaseApi
             // Return exception details
             return [
                 'status'      => 'error',
-                'message'     => 'Order Id is missing.',
+                'message'     => 'Order ID is missing. Please provide a valid order ID.',
                 'status_code' => 400,  // HTTP 400 Bad Request
             ];
         }
@@ -108,7 +108,7 @@ class OrderApi extends BaseApi
             // Return exception details
             return [
                 'status'      => 'error',
-                'message'     => 'Order Id is missing.',
+                'message'     => 'Order ID is missing. Please provide a valid order ID.',
                 'status_code' => 400,  // HTTP 400 Bad Request
             ];
         }
