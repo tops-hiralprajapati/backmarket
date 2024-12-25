@@ -51,7 +51,12 @@ class BaseApi
             ];
 
             // Send the HTTP request
-            $response = Http::withHeaders($headers)->$method($url, $reqPayload);
+            if(!empty($reqPayload))
+            {
+                $response = Http::withHeaders($headers)->$method($url, $reqPayload);
+            } else {
+                $response = Http::withHeaders($headers)->$method($url);
+            }
 
             // Handle a successful response
             if ($response->successful()) {
