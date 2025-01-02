@@ -9,19 +9,21 @@ class BaseApi
     protected $token;
     protected $apiUrl;
     protected $userAgent;
+    protected $countryLang;
 
     /**
      * Initialize BackMarket API credentials and configurations.
      *
      * Sets up the API token and endpoint required for making requests to the BackMarket API.
      *
-     * @param array $config Configuration array containing 'token','user_agent' and 'api_endpoint'.
-     */
+     * @param array $config Configuration array containing 'token','user_agent','language' and 'api_endpoint'.
+    */
     public function init($config = [])
     {
-        $this->token     = $config['token'] ?? null;
-        $this->apiUrl    = $config['api_endpoint'] ?? null;
-        $this->userAgent = $config['user_agent'] ?? null;
+        $this->token       = $config['token'] ?? null;
+        $this->apiUrl      = $config['api_endpoint'] ?? null;
+        $this->userAgent   = $config['user_agent'] ?? null;
+        $this->countryLang = $config['language'] ?? null;
     }
 
     /**
@@ -45,7 +47,7 @@ class BaseApi
             $headers = [
                 'Content-Type'    => 'application/json',
                 'Accept'          => 'application/json',
-                'Accept-Language' => 'en-us',
+                'Accept-Language' =>  $this->countryLang,
                 'Authorization'   => 'Basic ' . $this->token,
                 'User-Agent'      => $this->userAgent, // Use your actual Seller or ERP name
             ];
