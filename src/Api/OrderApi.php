@@ -84,7 +84,7 @@ class OrderApi extends BaseApi
         }
 
         // Replace the {order_id} placeholder with the actual Order ID
-        $endpoint = str_replace('{order_id}', $orderId, $this->getOrderUpdateEndpoint);
+        $endpoint = str_replace('{order_id}', $orderId, $this->orderUpdateEndpoint);
 
         return $this->makeRequest($endpoint, 'POST', [], $params);
     }
